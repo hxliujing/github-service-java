@@ -23,17 +23,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DefaultPipeline implements  Pipeline {
     final AbstractHandlerContext head;
     final AbstractHandlerContext tail;
-
+    volatile  HandlerModel model;
     private static final String HEAD_NAME = generateName0(HeadContext.class);
     private static final String TAIL_NAME = generateName0(TailContext.class);
     private static final ThreadLocal<Map<Class<?>, String>> nameCaches = new ThreadLocal<>();
 
     private int processNumber;
-    public DefaultPipeline(){
+    public DefaultPipeline(HandlerModel model){
         tail = new TailContext(this);
         head = new HeadContext(this);
         head.next = tail;
         tail.prev = head;
+        this.model = model;
     }
 
 
@@ -183,13 +184,13 @@ public class DefaultPipeline implements  Pipeline {
     }
 
     @Override
-    public Pipeline runHandlers() throws Exception {
+    public Pipeline doProcess() throws Exception {
         AbstractHandlerContext ctx = head.next;
         for (;;) {
             if (ctx == tail) {
                 break;
             }
-            ctx.handler().handlerRun(ctx);
+            ctx.handler().process(ctx,model);
             ctx = ctx.next;
             if (ctx == tail) {
                 break;
@@ -292,16 +293,6 @@ public class DefaultPipeline implements  Pipeline {
             list.add(ctx.name());
             ctx = ctx.next;
         }
-    }
-
-    @Override
-    public int getProcessNumber() {
-        return processNumber;
-    }
-
-    @Override
-    public void setProcessNumber(int num) {
-        processNumber = num;
     }
 
     @Override
@@ -521,9 +512,11 @@ public class DefaultPipeline implements  Pipeline {
         }
 
         @Override
-        public void handlerRun(HandlerContext ctx) {
+        public void process(HandlerContext ctx, HandlerModel model) throws Exception {
 
         }
+
+
     }
 
     final class HeadContext extends AbstractHandlerContext implements  Handler{
@@ -553,8 +546,10 @@ public class DefaultPipeline implements  Pipeline {
         }
 
         @Override
-        public void handlerRun(HandlerContext ctx) {
+        public void process(HandlerContext ctx, HandlerModel model) throws Exception {
 
         }
+
+
     }
 }

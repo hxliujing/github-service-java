@@ -16,5 +16,5 @@ public interface Handler {
 
     void handlerRemoved(HandlerContext ctx) throws Exception;
 
-    void handlerRun(HandlerContext ctx) throws Exception;
+    void process(HandlerContext ctx,HandlerModel model) throws Exception;
 }

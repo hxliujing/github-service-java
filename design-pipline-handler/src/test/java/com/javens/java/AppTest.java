@@ -8,6 +8,7 @@ import com.javens.java.chain.Pipeline;
 import com.javens.java.chain.handler.Business1Handler;
 import com.javens.java.chain.handler.Business2Handler;
 import com.javens.java.chain.handler.Business3Handler;
+import com.javens.java.chain.handler.model.BusinessModel;
 import org.junit.Test;
 
 import java.util.concurrent.Executor;
@@ -32,14 +33,14 @@ public class AppTest
 
     @Test
     public void createPipeline(){
-        Pipeline pipeline = new DefaultPipeline();
+        Pipeline pipeline = new DefaultPipeline(new BusinessModel());
         pipeline.addLast("first",new Business1Handler());
         pipeline.addLast("second",new Business2Handler());
         pipeline.addLast("third",new Business3Handler());
        // Handler handlerFirst = pipeline.get("first");
        // Handler handlerSecond = pipeline.get(Business2Handler.class);
         try {
-            pipeline.runHandlers();
+            pipeline.doProcess();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,13 +52,13 @@ public class AppTest
         ExecutorService executorService = Executors.newFixedThreadPool(100);
         for(int i=0;i<1000;i++){
             executorService.submit(()->{
-                Pipeline pipeline = new DefaultPipeline();
+                Pipeline pipeline = new DefaultPipeline(new BusinessModel());
                 pipeline.addLast("first",new Business1Handler());
                 pipeline.addLast("second",new Business2Handler());
                 pipeline.addLast("third",new Business3Handler());
                 ai.incrementAndGet();
                 try {
-                    pipeline.runHandlers();
+                    pipeline.doProcess();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -7,8 +7,12 @@ package com.javens.java.chain.handler;
 import com.javens.java.chain.DefaultPipeline;
 import com.javens.java.chain.Handler;
 import com.javens.java.chain.HandlerContext;
+import com.javens.java.chain.HandlerModel;
+import com.javens.java.chain.handler.model.BusinessModel;
 import com.javens.java.chain.internal.ObjectUtil;
 import com.javens.java.chain.internal.StringUtil;
+
+import java.util.UUID;
 
 /**
  *
@@ -20,20 +24,23 @@ public class Business1Handler implements  Handler{
 
     @Override
     public void handlerAdded(HandlerContext ctx) throws Exception {
-        System.out.println("handlerAdded===="+ StringUtil.simpleClassName(ctx.handler()));
+        //System.out.println("handlerAdded===="+ StringUtil.simpleClassName(ctx.handler()));
     }
 
     @Override
     public void handlerRemoved(HandlerContext ctx) throws Exception {
-        System.out.println("handlerRemoved===="+ StringUtil.simpleClassName(ctx.handler()));
+        //System.out.println("handlerRemoved===="+ StringUtil.simpleClassName(ctx.handler()));
     }
 
     @Override
-    public void handlerRun(HandlerContext ctx) throws Exception {
-        int num = ctx.pipeline().getProcessNumber();
-        ctx.pipeline().setProcessNumber(++num);
+    public void process(HandlerContext ctx, HandlerModel model) throws Exception {
+        if(model instanceof  BusinessModel){
+            BusinessModel model1 = (BusinessModel)model;
+            model1.setID(UUID.randomUUID().toString());
+            System.out.println(model1.getID());
+        }
         System.out.println(StringUtil.simpleClassName(ctx.handler())+" Start!");
-        System.out.println(ctx.pipeline().getProcessNumber());
+
     }
 
 }

@@ -30,7 +30,7 @@ public interface Pipeline {
 
     Pipeline remove(Handler handler);
 
-    Pipeline runHandlers() throws Exception;
+    Pipeline doProcess() throws Exception;
 
     Handler remove(String name);
 
@@ -55,6 +55,4 @@ public interface Pipeline {
 
     List<String> names();
 
-    int getProcessNumber();
-    void setProcessNumber(int num);
 }
