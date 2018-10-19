@@ -27,7 +27,7 @@ public abstract class AbstractHandlerContext implements HandlerContext{
 
     private volatile int handlerState = INIT;
 
-    private HandlerModel handlerModel;
+    private HandlerRequest handlerModel;
 
     AbstractHandlerContext(DefaultPipeline pipeline,String name){
         this.name = ObjectUtil.checkNotNull(name, "name");
@@ -46,11 +46,11 @@ public abstract class AbstractHandlerContext implements HandlerContext{
     }
 
     @Override
-    public HandlerModel data() {
+    public HandlerRequest data() {
         return handlerModel;
     }
     @Override
-    public void setData(HandlerModel model) {
+    public void setData(HandlerRequest model) {
         this.handlerModel = model;
     }
 

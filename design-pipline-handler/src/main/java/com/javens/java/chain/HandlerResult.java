@@ -10,15 +10,33 @@ package com.javens.java.chain;
  * @version HandlerModel.java, v 0.1 2018-10-18 08:59 
  */
 public class HandlerResult {
-    private String code;
+    private int code;
     private String result;
 
+
+    public HandlerResult(int code,String result){
+        this.code = code;
+        this.result = result;
+    }
+
+    public HandlerResult(HandlerResultEnum resultEnum){
+        create(resultEnum);
+    }
+
+    private void create(HandlerResultEnum resultEnum) {
+        this.code = resultEnum.getCode();
+        this.result = resultEnum.getValue();
+    }
+
+    public HandlerResult(){
+        create(HandlerResultEnum.SUCCESS);
+    }
     /**
      * Getter method for property <tt>code</tt>.
      *
      * @return property value of code
      */
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
@@ -27,7 +45,7 @@ public class HandlerResult {
      *
      * @param code value to be assigned to property code
      */
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 
@@ -47,5 +65,10 @@ public class HandlerResult {
      */
     public void setResult(String result) {
         this.result = result;
+    }
+
+    @Override
+    public String toString() {
+        return "code="+code + ",result="+result;
     }
 }

@@ -7,13 +7,10 @@ package com.javens.java.chain;
 
 import com.javens.java.chain.internal.StringUtil;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.WeakHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
@@ -23,13 +20,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DefaultPipeline implements  Pipeline {
     final AbstractHandlerContext head;
     final AbstractHandlerContext tail;
-    volatile  HandlerModel model;
+    volatile HandlerRequest model;
     private static final String HEAD_NAME = generateName0(HeadContext.class);
     private static final String TAIL_NAME = generateName0(TailContext.class);
     private static final ThreadLocal<Map<Class<?>, String>> nameCaches = new ThreadLocal<>();
 
     private int processNumber;
-    public DefaultPipeline(HandlerModel model){
+    public DefaultPipeline(HandlerRequest model){
         tail = new TailContext(this);
         head = new HeadContext(this);
         head.next = tail;
@@ -184,7 +181,7 @@ public class DefaultPipeline implements  Pipeline {
     }
 
     @Override
-    public HandlerResult doProcess() throws Exception {
+    public HandlerResult process() throws Exception {
         AbstractHandlerContext ctx = head.next;
         ctx.setData(model);
         return ctx.handler().process(ctx);

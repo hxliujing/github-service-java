@@ -3,12 +3,12 @@ package com.javens.java;
 import static org.junit.Assert.assertTrue;
 
 import com.javens.java.chain.DefaultPipeline;
+import com.javens.java.chain.HandlerRequest;
 import com.javens.java.chain.HandlerResult;
 import com.javens.java.chain.Pipeline;
 import com.javens.java.chain.handler.Business1Handler;
 import com.javens.java.chain.handler.Business2Handler;
 import com.javens.java.chain.handler.Business3Handler;
-import com.javens.java.chain.handler.model.BusinessModel;
 import org.junit.Test;
 
 import java.util.concurrent.ExecutorService;
@@ -32,19 +32,13 @@ public class AppTest
 
     @Test
     public void createPipeline(){
-        BusinessModel model = new BusinessModel();
-        HandlerResult result = new HandlerResult();
-        result.setResult("INIT");
-        model.setResult(result);
-        Pipeline pipeline = new DefaultPipeline(model);
+        HandlerRequest request = new HandlerRequest();
+        Pipeline pipeline = new DefaultPipeline(request);
         pipeline.addLast("first",new Business1Handler());
         pipeline.addLast("second",new Business2Handler());
         pipeline.addLast("third",new Business3Handler());
-       // Handler handlerFirst = pipeline.get("first");
-       // Handler handlerSecond = pipeline.get(Business2Handler.class);
         try {
-            HandlerResult result2 = pipeline.doProcess();
-            System.out.println(result2.getResult());
+            System.out.println("End:"+ pipeline.process());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,13 +50,13 @@ public class AppTest
         ExecutorService executorService = Executors.newFixedThreadPool(100);
         for(int i=0;i<1000;i++){
             executorService.submit(()->{
-                Pipeline pipeline = new DefaultPipeline(new BusinessModel());
+                Pipeline pipeline = new DefaultPipeline(new HandlerRequest());
                 pipeline.addLast("first",new Business1Handler());
                 pipeline.addLast("second",new Business2Handler());
                 pipeline.addLast("third",new Business3Handler());
                 ai.incrementAndGet();
                 try {
-                    pipeline.doProcess();
+                    pipeline.process();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

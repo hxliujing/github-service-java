@@ -9,7 +9,7 @@ package com.javens.java.chain;
  * @author liujing01
  * @version HandlerModel.java, v 0.1 2018-10-18 08:59 
  */
-public class HandlerModel {
+public class HandlerRequest {
     private PayPlatformEnum payPlatformEnum;
     private PayTypeEnum payTypeEnum;
     /**

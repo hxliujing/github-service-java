@@ -30,7 +30,7 @@ public interface Pipeline {
 
     Pipeline remove(Handler handler);
 
-    public HandlerResult doProcess() throws Exception;
+    public HandlerResult process() throws Exception;
 
     Handler remove(String name);
 
