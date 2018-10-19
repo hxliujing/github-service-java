@@ -21,6 +21,8 @@ public class HandlerModel {
      */
     private String token;
 
+    private HandlerResult result;
+
     /**
      * Getter method for property <tt>payPlatformEnum</tt>.
      *
@@ -91,5 +93,23 @@ public class HandlerModel {
      */
     public void setToken(String token) {
         this.token = token;
+    }
+
+    /**
+     * Getter method for property <tt>result</tt>.
+     *
+     * @return property value of result
+     */
+    public HandlerResult getResult() {
+        return result;
+    }
+
+    /**
+     * Setter method for property <tt>result</tt>.
+     *
+     * @param result value to be assigned to property result
+     */
+    public void setResult(HandlerResult result) {
+        this.result = result;
     }
 }

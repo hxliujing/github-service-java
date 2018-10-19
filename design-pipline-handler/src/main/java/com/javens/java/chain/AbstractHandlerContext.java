@@ -12,12 +12,12 @@ import com.javens.java.chain.internal.ObjectUtil;
  * @author liujing01
  * @version AbstractChannelHandlerContext.java, v 0.1 2018-10-12 10:59 
  */
-abstract class AbstractHandlerContext implements HandlerContext{
-    volatile AbstractHandlerContext next;
+public abstract class AbstractHandlerContext implements HandlerContext{
+    public volatile AbstractHandlerContext next;
     private final String name;
 
 
-    volatile AbstractHandlerContext prev;
+   public  volatile AbstractHandlerContext prev;
 
     private final DefaultPipeline pipeline;
     private static final int INIT = 0;
@@ -26,6 +26,8 @@ abstract class AbstractHandlerContext implements HandlerContext{
     private static final int REMOVE_COMPLETE = 3;
 
     private volatile int handlerState = INIT;
+
+    private HandlerModel handlerModel;
 
     AbstractHandlerContext(DefaultPipeline pipeline,String name){
         this.name = ObjectUtil.checkNotNull(name, "name");
@@ -41,6 +43,15 @@ abstract class AbstractHandlerContext implements HandlerContext{
     @Override
     public Pipeline pipeline() {
         return pipeline;
+    }
+
+    @Override
+    public HandlerModel data() {
+        return handlerModel;
+    }
+    @Override
+    public void setData(HandlerModel model) {
+        this.handlerModel = model;
     }
 
     final void setRemoved() {

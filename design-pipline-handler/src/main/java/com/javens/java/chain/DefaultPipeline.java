@@ -184,8 +184,12 @@ public class DefaultPipeline implements  Pipeline {
     }
 
     @Override
-    public Pipeline doProcess() throws Exception {
+    public HandlerResult doProcess() throws Exception {
         AbstractHandlerContext ctx = head.next;
+        ctx.setData(model);
+        return ctx.handler().process(ctx);
+
+        /*AbstractHandlerContext ctx = head.next;
         for (;;) {
             if (ctx == tail) {
                 break;
@@ -196,7 +200,8 @@ public class DefaultPipeline implements  Pipeline {
                 break;
             }
         }
-        return this;
+        return this;*/
+
     }
 
     @Override
@@ -493,10 +498,6 @@ public class DefaultPipeline implements  Pipeline {
         }
 
         @Override
-        public Pipeline pipeline() {
-            return null;
-        }
-        @Override
         public Handler handler() {
             return this;
         }
@@ -512,8 +513,8 @@ public class DefaultPipeline implements  Pipeline {
         }
 
         @Override
-        public void process(HandlerContext ctx, HandlerModel model) throws Exception {
-
+        public HandlerResult process(HandlerContext ctx) throws Exception {
+            return ctx.data().getResult();
         }
 
 
@@ -525,10 +526,6 @@ public class DefaultPipeline implements  Pipeline {
             super(pipeline,HEAD_NAME);
         }
 
-        @Override
-        public Pipeline pipeline() {
-            return null;
-        }
 
         @Override
         public Handler handler() {
@@ -546,8 +543,8 @@ public class DefaultPipeline implements  Pipeline {
         }
 
         @Override
-        public void process(HandlerContext ctx, HandlerModel model) throws Exception {
-
+        public HandlerResult process(HandlerContext ctx) throws Exception {
+            return this.next.handler().process(ctx);
         }
 
 

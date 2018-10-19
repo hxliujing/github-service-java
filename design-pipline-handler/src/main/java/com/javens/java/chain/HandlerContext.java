@@ -17,5 +17,7 @@ public interface HandlerContext {
 
     Handler handler();
 
+    HandlerModel data();
+    void setData(HandlerModel model);
    // boolean isRemoved();
 }
