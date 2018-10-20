@@ -9,7 +9,7 @@ package com.javens.java.chain;
  * @author liujing01
  * @version HandlerModel.java, v 0.1 2018-10-18 08:59 
  */
-public class HandlerRequest {
+public class HandlerRequest<T extends HandlerResult> {
     private PayPlatformEnum payPlatformEnum;
     private PayTypeEnum payTypeEnum;
     /**
@@ -21,7 +21,7 @@ public class HandlerRequest {
      */
     private String token;
 
-    private HandlerResult result;
+    private T result;
 
     /**
      * Getter method for property <tt>payPlatformEnum</tt>.
@@ -100,7 +100,7 @@ public class HandlerRequest {
      *
      * @return property value of result
      */
-    public HandlerResult getResult() {
+    public T getResult() {
         return result;
     }
 
@@ -109,7 +109,7 @@ public class HandlerRequest {
      *
      * @param result value to be assigned to property result
      */
-    public void setResult(HandlerResult result) {
+    public void setResult(T result) {
         this.result = result;
     }
 }

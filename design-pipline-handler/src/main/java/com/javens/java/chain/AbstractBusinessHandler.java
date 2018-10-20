@@ -17,7 +17,7 @@ import org.springframework.util.StringUtils;
  * @author liujing01
  * @version AbstractBusinessHandler.java, v 0.1 2018-10-19 12:01 
  */
-public abstract class AbstractBusinessHandler implements Handler{
+public abstract class AbstractBusinessHandler<T extends HandlerResult> implements Handler{
 
     @Override
     public void handlerAdded(HandlerContext ctx) throws Exception {
@@ -32,8 +32,8 @@ public abstract class AbstractBusinessHandler implements Handler{
     @Override
     public HandlerResult process(HandlerContext ctx) throws Exception {
         AbstractHandlerContext nextCtx = ((AbstractHandlerContext) ctx).next;
-        HandlerRequest model = ctx.data();
-        HandlerResult handlerResult = doProcess(ctx.data());
+        HandlerRequest<T> model = ctx.data();
+        T handlerResult = doProcess(model);
         if(handlerResult==null || handlerResult.getCode() != HandlerResultEnum.SUCCESS.getCode()){
             return handlerResult;
         }
@@ -47,5 +47,5 @@ public abstract class AbstractBusinessHandler implements Handler{
      * @param request
      * @return
      */
-    protected abstract HandlerResult doProcess(HandlerRequest request);
+    protected abstract T doProcess(HandlerRequest<T> request);
 }

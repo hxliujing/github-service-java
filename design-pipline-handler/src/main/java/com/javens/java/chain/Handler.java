@@ -10,11 +10,11 @@ package com.javens.java.chain;
  * @author liujing01
  * @version Handler.java, v 0.1 2018-10-12 10:49 
  */
-public interface Handler {
+public interface Handler<T extends HandlerResult> {
 
     void handlerAdded(HandlerContext ctx) throws Exception;
 
     void handlerRemoved(HandlerContext ctx) throws Exception;
 
-    HandlerResult process(HandlerContext ctx) throws Exception;
+    T process(HandlerContext ctx) throws Exception;
 }

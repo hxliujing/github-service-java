@@ -34,6 +34,13 @@ public class DefaultPipeline implements  Pipeline {
         this.model = model;
     }
 
+    public DefaultPipeline(){
+        tail = new TailContext(this);
+        head = new HeadContext(this);
+        head.next = tail;
+        tail.prev = head;
+    }
+
 
     @Override
     public Pipeline addFirst(String name, Handler handler) {
@@ -183,7 +190,7 @@ public class DefaultPipeline implements  Pipeline {
     @Override
     public HandlerResult process() throws Exception {
         AbstractHandlerContext ctx = head.next;
-        ctx.setData(model);
+        ctx.setData(model==null?new HandlerRequest():model);
         return ctx.handler().process(ctx);
 
         /*AbstractHandlerContext ctx = head.next;
