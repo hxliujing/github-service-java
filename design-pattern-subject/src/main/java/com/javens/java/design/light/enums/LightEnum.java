@@ -1,10 +1,13 @@
-package com.javens.java.enums;
+package com.javens.java.design.light.enums;
 
 /**
  * @author liujing01
  * @version Light.java, v 0.1 2018-11-10 08:57
  */
 public enum LightEnum {
+    /**
+     * 枚举列表
+     */
     RED("红灯",1),
     YELLOW("黄灯",2),
     GREEN("绿灯",3);

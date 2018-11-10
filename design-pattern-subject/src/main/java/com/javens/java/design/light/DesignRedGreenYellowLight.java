@@ -2,13 +2,12 @@
  * fshows.com
  * Copyright (C) 2013-2018 All Rights Reserved.
  */
-package com.javens.java;
+package com.javens.java.design.light;
 
-import com.javens.java.enums.LightButtonEnum;
-import com.javens.java.model.Light;
+import com.javens.java.design.light.enums.LightButtonEnum;
+import com.javens.java.design.light.model.Light;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**

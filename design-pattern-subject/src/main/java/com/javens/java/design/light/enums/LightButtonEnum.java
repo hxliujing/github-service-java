@@ -1,4 +1,4 @@
-package com.javens.java.enums;
+package com.javens.java.design.light.enums;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -7,6 +7,9 @@ import org.apache.commons.lang3.StringUtils;
  * @version LightButton.java, v 0.1 2018-11-10 09:15
  */
 public enum LightButtonEnum {
+    /**
+     * 枚举列表
+     */
     OFF("关闭","off"),
     ON("打开","on"),
     /**

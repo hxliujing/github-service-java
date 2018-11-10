@@ -2,10 +2,10 @@
  * fshows.com
  * Copyright (C) 2013-2018 All Rights Reserved.
  */
-package com.javens.java.model;
+package com.javens.java.design.light.model;
 
-import com.javens.java.enums.LightButtonEnum;
-import com.javens.java.enums.LightEnum;
+import com.javens.java.design.light.enums.LightButtonEnum;
+import com.javens.java.design.light.enums.LightEnum;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 

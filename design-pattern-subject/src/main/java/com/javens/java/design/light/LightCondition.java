@@ -2,9 +2,9 @@
  * fshows.com
  * Copyright (C) 2013-2018 All Rights Reserved.
  */
-package com.javens.java;
+package com.javens.java.design.light;
 
-import com.javens.java.model.Light;
+import com.javens.java.design.light.model.Light;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
