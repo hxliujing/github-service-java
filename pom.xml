@@ -11,6 +11,7 @@
     <modules>
         <module>design-pipline-handler</module>
         <module>powermock-test</module>
+        <module>design-pattern-subject</module>
     </modules>
     <name>github-service-java</name>
 
@@ -46,7 +47,12 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
+            <!-- commons -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.7</version>
+            </dependency>
             <!-- test依赖 -->
             <dependency>
                 <groupId>junit</groupId>
