@@ -12,6 +12,7 @@
         <module>design-pipline-handler</module>
         <module>powermock-test</module>
         <module>design-pattern-subject</module>
+        <module>java-hbase</module>
     </modules>
     <name>github-service-java</name>
 
