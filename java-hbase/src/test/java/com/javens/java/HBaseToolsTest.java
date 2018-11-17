@@ -22,7 +22,7 @@ public class HBaseToolsTest {
 
     @Test
     public void test_query_all_table(){
-        HBaseTools.QueryAll("test");
+        HBaseTools.queryAll("test");
     }
     @Test
     public void test_insert(){
