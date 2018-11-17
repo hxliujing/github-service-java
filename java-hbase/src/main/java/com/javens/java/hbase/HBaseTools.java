@@ -46,56 +46,59 @@ public class HBaseTools {
         configuration.set("hbase.master", "127.0.0.1:600000");
     }
 
-    public static void createTable(String tableName) {
-        System.out.println("start create table ......");
+    /**
+     * 创建表
+     * @param tableName
+     * @param descriptors
+     * @return
+     */
+    public static boolean createTable(String tableName,String ... descriptors) {
         try {
             HBaseAdmin hBaseAdmin = new HBaseAdmin(configuration);
             if (hBaseAdmin.tableExists(tableName)) {
                 // 如果存在要创建的表，那么先删除，再创建
-                hBaseAdmin.disableTable(tableName);
-                hBaseAdmin.deleteTable(tableName);
-                System.out.println(tableName + " is exist,detele....");
+                //hBaseAdmin.disableTable(tableName);
+                //hBaseAdmin.deleteTable(tableName);
+                //System.out.println(tableName + " is exist,detele....");
+                return false;
             }
             HTableDescriptor tableDescriptor = new HTableDescriptor(tableName);
-            tableDescriptor.addFamily(new HColumnDescriptor("column1"));
-            tableDescriptor.addFamily(new HColumnDescriptor("column2"));
-            tableDescriptor.addFamily(new HColumnDescriptor("column3"));
+            for(String descriptor : descriptors){
+                tableDescriptor.addFamily(new HColumnDescriptor(descriptor));
+            }
             hBaseAdmin.createTable(tableDescriptor);
         } catch (MasterNotRunningException e) {
             e.printStackTrace();
+            return false;
         } catch (ZooKeeperConnectionException e) {
             e.printStackTrace();
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
-        System.out.println("end create table ......");
+        return true;
     }
 
-    public static void insertData(String tableName) {
-        System.out.println("start insert data ......");
+    public static void insert(String tableName,Put put) {
         HTablePool pool = new HTablePool(configuration, 1000);
-        HTable table = (HTable) pool.getTable(tableName);
-        // 一个PUT代表一行数据，再NEW一个PUT表示第二行数据,每行一个唯一的ROWKEY，此处rowkey为put构造方法中传入的值
-        Put put = new Put("112233bbbcccc".getBytes());
-        // 本行数据的第一列
-        put.add("column1".getBytes(), null, "aaa".getBytes());
-        // 本行数据的第二列
-        put.add("column2".getBytes(), null, "bbb".getBytes());
-        // 本行数据的第三列
-        put.add("column3".getBytes(), null, "ccc".getBytes());
+        HTableInterface table =  pool.getTable(tableName);
         try {
             table.put(put);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("end insert data ......");
     }
 
-    public static void dropTable(String tableName) {
+    public static boolean  dropTable(String tableName) {
         try {
             HBaseAdmin admin = new HBaseAdmin(configuration);
-            admin.disableTable(tableName);
-            admin.deleteTable(tableName);
+            if (admin.tableExists(tableName)) {
+                admin.disableTable(tableName);
+                admin.deleteTable(tableName);
+                return true;
+            }
+
         } catch (MasterNotRunningException e) {
             e.printStackTrace();
         } catch (ZooKeeperConnectionException e) {
@@ -103,39 +106,32 @@ public class HBaseTools {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        return false;
     }
 
-    public static void deleteRow(String tablename, String rowkey)  {
+    public static boolean deleteRow(String tablename, String rowkey)  {
         try {
             HTable table = new HTable(configuration, tablename);
             List list = new ArrayList();
             Delete d1 = new Delete(rowkey.getBytes());
             list.add(d1);
             table.delete(list);
-            System.out.println("删除行成功!");
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    public static void deleteByCondition(String tablename, String rowkey)  {
-        //目前还没有发现有效的API能够实现根据非rowkey的条件删除这个功能能，还有清空表全部数据的API操作
-
+        return false;
     }
 
-
-
-    public static void QueryByCondition1(String tableName) {
+    public static void queryByRowKey(String tableName,String rowKey) {
         HTablePool pool = new HTablePool(configuration, 1000);
         HTable table = (HTable) pool.getTable(tableName);
         try {
             // 根据rowkey查询
-            Get scan = new Get("abcdef".getBytes());
+            Get scan = new Get(Bytes.toBytes(rowKey));
             Result r = table.get(scan);
-            System.out.println("获得到rowkey:" + new String(r.getRow()));
             for (KeyValue keyValue : r.raw()) {
-                System.out.println("列：" + new String(keyValue.getFamily())
-                        + "====值:" + new String(keyValue.getValue()));
+                System.out.println("列：" + new String(keyValue.getFamily())+ "====值:" + new String(keyValue.getValue()));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -143,13 +139,13 @@ public class HBaseTools {
     }
 
 
-    public static void QueryByCondition2(String tableName) {
+    public static void queryByFilter(String tableName,Filter filter) {
         try {
             HTablePool pool = new HTablePool(configuration, 1000);
             HTable table = (HTable) pool.getTable(tableName);
-            Filter filter = new SingleColumnValueFilter(Bytes
-                    .toBytes("column1"), null, CompareFilter.CompareOp.EQUAL, Bytes
-                    .toBytes("aaa")); // 当列column1的值为aaa时进行查询
+            /*Filter filter = new SingleColumnValueFilter(Bytes
+                    .toBytes(family), Bytes.toBytes(qualifier), CompareFilter.CompareOp.EQUAL, Bytes
+                    .toBytes(value)); */
             Scan s = new Scan();
             s.setFilter(filter);
             ResultScanner rs = table.getScanner(s);
@@ -167,31 +163,11 @@ public class HBaseTools {
     }
 
 
-    public static void QueryByCondition3(String tableName) {
-
+    public static void queryByFilters(String tableName,Filter ... filters) {
         try {
             HTablePool pool = new HTablePool(configuration, 1000);
             HTable table = (HTable) pool.getTable(tableName);
-
-            List<Filter> filters = new ArrayList<Filter>();
-
-            Filter filter1 = new SingleColumnValueFilter(Bytes
-                    .toBytes("column1"), null, CompareFilter.CompareOp.EQUAL, Bytes
-                    .toBytes("aaa"));
-            filters.add(filter1);
-
-            Filter filter2 = new SingleColumnValueFilter(Bytes
-                    .toBytes("column2"), null, CompareFilter.CompareOp.EQUAL, Bytes
-                    .toBytes("bbb"));
-            filters.add(filter2);
-
-            Filter filter3 = new SingleColumnValueFilter(Bytes
-                    .toBytes("column3"), null, CompareFilter.CompareOp.EQUAL, Bytes
-                    .toBytes("ccc"));
-            filters.add(filter3);
-
             FilterList filterList1 = new FilterList(filters);
-
             Scan scan = new Scan();
             scan.setFilter(filterList1);
             ResultScanner rs = table.getScanner(scan);
@@ -203,7 +179,6 @@ public class HBaseTools {
                 }
             }
             rs.close();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -213,7 +188,7 @@ public class HBaseTools {
 
 
 
-    public static void QueryAll(String tableName) {
+    public static void queryAll(String tableName) {
         HTablePool pool = new HTablePool(configuration, 1000);
         HTableInterface table = pool.getTable(tableName);
         TableName tableName1 = table.getName();
@@ -231,7 +206,4 @@ public class HBaseTools {
         }
     }
 
-    public static void main(String[] args) {
-        HBaseTools.QueryAll("test");
-    }
 }
