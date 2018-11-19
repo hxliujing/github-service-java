@@ -90,6 +90,26 @@ public class HBaseTools {
         }
     }
 
+    public static void inserts(String tableName,List<Put> puts) {
+        HTablePool pool = new HTablePool(configuration, 1000);
+        HTableInterface table =  pool.getTable(tableName);
+        try {
+            table.put(puts);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取表
+     * @param tableName
+     * @return
+     */
+    public static HTableInterface getTable(String tableName){
+        HTablePool pool = new HTablePool(configuration, 1000);
+        return pool.getTable(tableName);
+    }
+
     public static boolean  dropTable(String tableName) {
         try {
             HBaseAdmin admin = new HBaseAdmin(configuration);
