@@ -13,6 +13,7 @@
         <module>powermock-test</module>
         <module>design-pattern-subject</module>
         <module>java-hbase</module>
+        <module>java-hadoop</module>
     </modules>
     <name>github-service-java</name>
 

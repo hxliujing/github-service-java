@@ -23,7 +23,7 @@ public class HBaseToolsTest {
      */
     @Test
     public void test_create_table(){
-        HBaseTools.createTable("test");
+        HBaseTools.createTable("test","column1","column2","column3");
     }
 
     @Test
