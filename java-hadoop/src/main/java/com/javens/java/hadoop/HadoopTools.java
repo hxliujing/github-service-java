@@ -5,12 +5,15 @@
 package com.javens.java.hadoop;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  *
@@ -62,6 +65,32 @@ public class HadoopTools {
     }
 
     /**
+     * 读取文件内容
+     * @param fileName
+     * @throws IOException
+     */
+    public static void readFile(String fileName) throws IOException {
+        Path file = new Path(fileName);
+        boolean isExists =hdfs.exists(file);
+        if (!isExists) {
+            System.out.println("no file");
+        }
+        FSDataInputStream inStream = null;
+        BufferedReader bf = null;
+        try{
+            inStream= hdfs.open(file);
+            bf = new BufferedReader(new InputStreamReader(inStream));
+            String line = null;
+            while ((line = bf.readLine()) != null) {
+                System.out.println(new String(line.getBytes(), "utf-8"));
+            }
+        }finally {
+            bf.close();
+            inStream.close();
+        }
+    }
+
+    /**
      * create a direction
      * @param dir
      * @throws IOException
@@ -109,11 +138,4 @@ public class HadoopTools {
         }
     }
 
-
-    public static void main(String[] args) throws IOException {
-        //HadoopTools.createDir("/demo3");
-        HadoopTools.createFile("/demo2/create_file.txt","create_file");
-        HadoopTools.listFiles("/demo2");
-
-    }
 }
