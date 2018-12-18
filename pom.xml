@@ -14,6 +14,8 @@
         <module>design-pattern-subject</module>
         <module>java-hbase</module>
         <module>java-hadoop</module>
+        <module>java-aqs</module>
+        <module>java-base</module>
     </modules>
     <name>github-service-java</name>
 
@@ -25,6 +27,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <fastjson.version>1.2.49</fastjson.version>
+        <guava.version>21.0</guava.version>
     </properties>
 
   <dependencyManagement>
@@ -44,8 +48,18 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
-
+            <!-- fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+            <!-- guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-netflix</artifactId>

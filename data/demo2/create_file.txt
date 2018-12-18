@@ -1,2 +1,0 @@
-create_file
-中文
