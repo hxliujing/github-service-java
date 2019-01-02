@@ -1,0 +1,43 @@
+<!DOCTYPE table SYSTEM "../config/table-config-1.0.dtd">
+    <table sqlname="TCC_ORDER" physicalName="TCC_ORDER"
+    remark="TCC_ORDER">
+<!--    &lt;&gt;   <> -->
+<operation name="insert" paramtype="object" remark="insert:TCC_ORDER">
+INSERT INTO TCC_ORDER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">`ID`,</if>
+        <if test="type != null">`TYPE`,</if>
+        <if test="isDel != null">`IS_DEL`,</if>
+        <if test="amount != null">`AMOUNT`,</if>
+        <if test="orderSn != null">`ORDER_SN`,</if>
+        <if test="accountId != null">`ACCOUNT_ID`,</if>
+        <if test="createTime != null">`CREATE_TIME`,</if>
+        <if test="updateTime != null">`UPDATE_TIME`,</if>
+    </trim>
+VALUES
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">#{id,jdbcType=INTEGER},</if>
+        <if test="type != null">#{type,jdbcType=INTEGER},</if>
+        <if test="isDel != null">#{isDel,jdbcType=TINYINT},</if>
+        <if test="amount != null">#{amount,jdbcType=DECIMAL},</if>
+        <if test="orderSn != null">#{orderSn,jdbcType=VARCHAR},</if>
+        <if test="accountId != null">#{accountId,jdbcType=INTEGER},</if>
+        <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+        <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
+    </trim>
+    </operation>
+
+
+    <operation name="getById" multiplicity="one" remark="获取记录">
+        SELECT * FROM TCC_ORDER WHERE id =#{id,jdbcType=INTEGER}  and IS_DEL = 0 LIMIT 1
+    </operation>
+
+    <operation name="getByIdForUpdate" multiplicity="one" remark="获取记录">
+        SELECT * FROM TCC_ORDER WHERE id =#{id,jdbcType=INTEGER}  and IS_DEL = 0  FOR UPDATE
+    </operation>
+
+    <operation name="getByOrderSnForUpdate" multiplicity="one" remark="获取记录">
+        SELECT * FROM TCC_ORDER WHERE ORDER_SN =#{orderSn,jdbcType=VARCHAR}  and IS_DEL = 0  FOR UPDATE
+    </operation>
+
+    </table>

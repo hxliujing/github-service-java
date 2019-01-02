@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+    <mapper namespace="com.javens.java.service.dal.tcc_java_order.mapper.OrderDOMapper">
+
+<resultMap id="BaseResultMap" type="com.javens.java.service.dal.tcc_java_order.dataobject.OrderDO">
+            <id column="ID" property="id" jdbcType="INTEGER" javaType="Integer"/>
+
+            <result column="TYPE" property="type" jdbcType="INTEGER"
+        javaType="Integer"/>
+
+            <result column="IS_DEL" property="isDel" jdbcType="TINYINT"
+        javaType="Integer"/>
+
+            <result column="AMOUNT" property="amount" jdbcType="DECIMAL"
+        javaType="java.math.BigDecimal"/>
+
+            <result column="ORDER_SN" property="orderSn" jdbcType="VARCHAR"
+        javaType="String"/>
+
+            <result column="ACCOUNT_ID" property="accountId" jdbcType="INTEGER"
+        javaType="Integer"/>
+
+            <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"
+        javaType="java.util.Date"/>
+
+            <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP"
+        javaType="java.util.Date"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+    `ID`,`TYPE`,`IS_DEL`,`AMOUNT`,`ORDER_SN`,`ACCOUNT_ID`,`CREATE_TIME`,`UPDATE_TIME`
+    </sql>
+
+
+            <!--insert:TCC_ORDER-->
+            <insert id="insert" >
+            INSERT INTO TCC_ORDER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">`ID`,</if>
+        <if test="type != null">`TYPE`,</if>
+        <if test="isDel != null">`IS_DEL`,</if>
+        <if test="amount != null">`AMOUNT`,</if>
+        <if test="orderSn != null">`ORDER_SN`,</if>
+        <if test="accountId != null">`ACCOUNT_ID`,</if>
+        <if test="createTime != null">`CREATE_TIME`,</if>
+        <if test="updateTime != null">`UPDATE_TIME`,</if>
+    </trim>
+VALUES
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">#{id,jdbcType=INTEGER},</if>
+        <if test="type != null">#{type,jdbcType=INTEGER},</if>
+        <if test="isDel != null">#{isDel,jdbcType=TINYINT},</if>
+        <if test="amount != null">#{amount,jdbcType=DECIMAL},</if>
+        <if test="orderSn != null">#{orderSn,jdbcType=VARCHAR},</if>
+        <if test="accountId != null">#{accountId,jdbcType=INTEGER},</if>
+        <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+        <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
+    </trim>
+            </insert>
+
+            <!--获取记录-->
+            <select id="getById" resultMap="BaseResultMap">
+                    SELECT /*MS-TCC-ORDER-GETBYID*/  <include refid="Base_Column_List" /> FROM TCC_ORDER WHERE id =#{id,jdbcType=INTEGER}  and IS_DEL = 0 LIMIT 1
+            </select>
+
+            <!--获取记录-->
+            <select id="getByIdForUpdate" resultMap="BaseResultMap">
+                    SELECT /*MS-TCC-ORDER-GETBYIDFORUPDATE*/  <include refid="Base_Column_List" /> FROM TCC_ORDER WHERE id =#{id,jdbcType=INTEGER}  and IS_DEL = 0  FOR UPDATE
+            </select>
+
+            <!--获取记录-->
+            <select id="getByOrderSnForUpdate" resultMap="BaseResultMap">
+                    SELECT /*MS-TCC-ORDER-GETBYORDERSNFORUPDATE*/  <include refid="Base_Column_List" /> FROM TCC_ORDER WHERE ORDER_SN =#{orderSn,jdbcType=VARCHAR}  and IS_DEL = 0  FOR UPDATE
+            </select>
+    </mapper>

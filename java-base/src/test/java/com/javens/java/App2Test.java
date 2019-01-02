@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  *
@@ -45,5 +46,24 @@ public class App2Test {
         BigDecimal rateFee = BigDecimal.valueOf(0.0045);
         BigDecimal income = totalMoney.multiply(BigDecimal.ONE.subtract(rateFee)).setScale(2, BigDecimal.ROUND_HALF_UP);
         System.out.println(totalMoney.subtract(income));
+    }
+
+    @Test
+    public void test4(){
+        long nowTime = new Date().getTime();
+        Integer time = 1536076800;
+        Long i = time * 1000L;
+        System.out.println(nowTime);
+        System.out.println(i);
+        System.out.println(nowTime > i);
+    }
+
+    @Test
+    public void test5(){
+        long nowTime = new Date().getTime();
+        long a = Long.MAX_VALUE  -  nowTime;
+        System.out.println(a);
+        System.out.println(Long.MAX_VALUE);
+        System.out.println(nowTime);
     }
 }

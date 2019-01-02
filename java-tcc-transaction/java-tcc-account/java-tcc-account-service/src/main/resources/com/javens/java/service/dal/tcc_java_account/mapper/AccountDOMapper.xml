@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+    <mapper namespace="com.javens.java.service.dal.tcc_java_account.mapper.AccountDOMapper">
+
+<resultMap id="BaseResultMap" type="com.javens.java.service.dal.tcc_java_account.dataobject.AccountDO">
+            <id column="ID" property="id" jdbcType="INTEGER" javaType="Integer"/>
+
+            <result column="TYPE" property="type" jdbcType="INTEGER"
+        javaType="Integer"/>
+
+            <result column="IS_DEL" property="isDel" jdbcType="TINYINT"
+        javaType="Integer"/>
+
+            <result column="AMOUNT" property="amount" jdbcType="DECIMAL"
+        javaType="java.math.BigDecimal"/>
+
+            <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"
+        javaType="java.util.Date"/>
+
+            <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP"
+        javaType="java.util.Date"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+    `ID`,`TYPE`,`IS_DEL`,`AMOUNT`,`CREATE_TIME`,`UPDATE_TIME`
+    </sql>
+
+
+            <!--insert:TCC_ACCOUNT-->
+            <insert id="insert" >
+            INSERT INTO TCC_ACCOUNT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">`ID`,</if>
+        <if test="type != null">`TYPE`,</if>
+        <if test="isDel != null">`IS_DEL`,</if>
+        <if test="amount != null">`AMOUNT`,</if>
+        <if test="createTime != null">`CREATE_TIME`,</if>
+        <if test="updateTime != null">`UPDATE_TIME`,</if>
+    </trim>
+VALUES
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">#{id,jdbcType=INTEGER},</if>
+        <if test="type != null">#{type,jdbcType=INTEGER},</if>
+        <if test="isDel != null">#{isDel,jdbcType=TINYINT},</if>
+        <if test="amount != null">#{amount,jdbcType=DECIMAL},</if>
+        <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+        <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
+    </trim>
+            </insert>
+
+            <!--获取记录-->
+            <select id="getById" resultMap="BaseResultMap">
+                    SELECT /*MS-TCC-ACCOUNT-GETBYID*/  <include refid="Base_Column_List" /> FROM TCC_ACCOUNT WHERE id =#{id,jdbcType=INTEGER}  and IS_DEL = 0 LIMIT 1
+            </select>
+
+            <!--获取记录-->
+            <select id="getByIdForUpdate" resultMap="BaseResultMap">
+                    SELECT /*MS-TCC-ACCOUNT-GETBYIDFORUPDATE*/  <include refid="Base_Column_List" /> FROM TCC_ACCOUNT WHERE id =#{id,jdbcType=INTEGER}  and IS_DEL = 0  FOR UPDATE
+            </select>
+
+            <!--修改账户金额-->
+            <update id="updateAccountBalance" >
+                    UPDATE /*MS-TCC-ACCOUNT-UPDATEACCOUNTBALANCE*/ TCC_ACCOUNT SET  amount = amount + #{amount,jdbcType=DECIMAL}
+        where
+        id = #{id,jdbcType=INTEGER} and IS_DEL = 0
+            </update>
+    </mapper>

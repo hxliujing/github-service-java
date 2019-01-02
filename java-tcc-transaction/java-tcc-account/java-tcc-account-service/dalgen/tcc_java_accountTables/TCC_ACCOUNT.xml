@@ -1,0 +1,42 @@
+<!DOCTYPE table SYSTEM "../config/table-config-1.0.dtd">
+    <table sqlname="TCC_ACCOUNT" physicalName="TCC_ACCOUNT"
+    remark="TCC_ACCOUNT">
+<!--    &lt;&gt;   <> -->
+<operation name="insert" paramtype="object" remark="insert:TCC_ACCOUNT">
+INSERT INTO TCC_ACCOUNT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">`ID`,</if>
+        <if test="type != null">`TYPE`,</if>
+        <if test="isDel != null">`IS_DEL`,</if>
+        <if test="amount != null">`AMOUNT`,</if>
+        <if test="createTime != null">`CREATE_TIME`,</if>
+        <if test="updateTime != null">`UPDATE_TIME`,</if>
+    </trim>
+VALUES
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">#{id,jdbcType=INTEGER},</if>
+        <if test="type != null">#{type,jdbcType=INTEGER},</if>
+        <if test="isDel != null">#{isDel,jdbcType=TINYINT},</if>
+        <if test="amount != null">#{amount,jdbcType=DECIMAL},</if>
+        <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+        <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
+    </trim>
+    </operation>
+
+
+
+    <operation name="getById" multiplicity="one" remark="获取记录">
+        SELECT * FROM TCC_ACCOUNT WHERE id =#{id,jdbcType=INTEGER}  and IS_DEL = 0 LIMIT 1
+    </operation>
+
+    <operation name="getByIdForUpdate" multiplicity="one" remark="获取记录">
+        SELECT * FROM TCC_ACCOUNT WHERE id =#{id,jdbcType=INTEGER}  and IS_DEL = 0  FOR UPDATE
+    </operation>
+
+
+    <operation name="updateAccountBalance"  paramtype="object"  remark="修改账户金额">
+        UPDATE TCC_ACCOUNT SET  amount = amount + #{amount,jdbcType=DECIMAL}
+        where
+        id = #{id,jdbcType=INTEGER} and IS_DEL = 0
+    </operation>
+    </table>
