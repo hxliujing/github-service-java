@@ -42,6 +42,10 @@ public class OrderDO{
     * updateTime 修改时间.
     */
     private Date updateTime;
+    /**
+    * orderStatus 状态.
+    */
+    private String orderStatus;
 
     /**
     * Set id ID.
@@ -169,6 +173,22 @@ public class OrderDO{
     */
     public Date getUpdateTime(){
         return updateTime;
+    }
+
+    /**
+    * Set orderStatus 状态.
+    */
+    public void setOrderStatus(String orderStatus){
+        this.orderStatus = orderStatus;
+    }
+
+    /**
+    * Get orderStatus 状态.
+    *
+    * @return the string
+    */
+    public String getOrderStatus(){
+        return orderStatus;
     }
 
     @Override

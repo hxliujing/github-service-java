@@ -25,11 +25,14 @@
 
             <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP"
         javaType="java.util.Date"/>
+
+            <result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR"
+        javaType="String"/>
     </resultMap>
 
 
     <sql id="Base_Column_List">
-    `ID`,`TYPE`,`IS_DEL`,`AMOUNT`,`ORDER_SN`,`ACCOUNT_ID`,`CREATE_TIME`,`UPDATE_TIME`
+    `ID`,`TYPE`,`IS_DEL`,`AMOUNT`,`ORDER_SN`,`ACCOUNT_ID`,`CREATE_TIME`,`UPDATE_TIME`,`ORDER_STATUS`
     </sql>
 
 
@@ -45,6 +48,7 @@
         <if test="accountId != null">`ACCOUNT_ID`,</if>
         <if test="createTime != null">`CREATE_TIME`,</if>
         <if test="updateTime != null">`UPDATE_TIME`,</if>
+        <if test="orderStatus != null">`ORDER_STATUS`,</if>
     </trim>
 VALUES
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -56,6 +60,7 @@ VALUES
         <if test="accountId != null">#{accountId,jdbcType=INTEGER},</if>
         <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
         <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
+        <if test="orderStatus != null">#{orderStatus,jdbcType=VARCHAR},</if>
     </trim>
             </insert>
 

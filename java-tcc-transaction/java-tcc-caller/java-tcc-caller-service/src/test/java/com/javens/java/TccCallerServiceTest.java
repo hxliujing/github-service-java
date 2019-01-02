@@ -49,6 +49,7 @@ public class TccCallerServiceTest extends BaseTest {
         form.setType(1);
         form.setUpdateTime(new Date());
         form.setOrderSn(OrderUtil.createMessageId());
+        form.setOrderStatus("INIT");
         OrderSaveResult result = tccOrderClient.save(form);
         LogUtil.info(log,"result={}",result);
     }

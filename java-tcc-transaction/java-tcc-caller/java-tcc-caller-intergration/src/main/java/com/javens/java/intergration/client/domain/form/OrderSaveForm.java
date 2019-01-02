@@ -52,6 +52,8 @@ public class OrderSaveForm implements Serializable{
      */
     private Date updateTime;
 
+    private String orderStatus;
+
 
     /**
      * Getter method for property <tt>id</tt>.
@@ -195,6 +197,25 @@ public class OrderSaveForm implements Serializable{
      */
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+
+    /**
+     * Getter method for property <tt>orderStatus</tt>.
+     *
+     * @return property value of orderStatus
+     */
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    /**
+     * Setter method for property <tt>orderStatus</tt>.
+     *
+     * @param orderStatus value to be assigned to property orderStatus
+     */
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     @Override

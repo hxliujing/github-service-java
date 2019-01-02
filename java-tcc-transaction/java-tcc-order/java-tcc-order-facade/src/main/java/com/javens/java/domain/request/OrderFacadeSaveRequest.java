@@ -40,6 +40,8 @@ public class OrderFacadeSaveRequest implements Serializable {
      * orderSn 订单编号.
      */
     private String orderSn;
+
+    private String orderStatus;
     /**
      * accountId UNION 账户ID.
      */
@@ -195,6 +197,24 @@ public class OrderFacadeSaveRequest implements Serializable {
      */
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    /**
+     * Getter method for property <tt>orderStatus</tt>.
+     *
+     * @return property value of orderStatus
+     */
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    /**
+     * Setter method for property <tt>orderStatus</tt>.
+     *
+     * @param orderStatus value to be assigned to property orderStatus
+     */
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     @Override

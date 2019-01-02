@@ -17,5 +17,9 @@
             <artifactId>fsframework-common</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.mengyun</groupId>
+            <artifactId>tcc-transaction-dubbo</artifactId>
+        </dependency>
     </dependencies>
 </project>
