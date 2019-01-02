@@ -7,6 +7,7 @@ package com.javens.java;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ImportResource;
 
 /**
  *
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @ComponentScan("com.javens.java.*")
+@ImportResource(locations= {"classpath:tcc-transaction.xml"})
 public class TccOrderServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(TccOrderServiceApplication.class, args);

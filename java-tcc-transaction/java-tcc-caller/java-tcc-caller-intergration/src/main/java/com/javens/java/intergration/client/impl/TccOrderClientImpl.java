@@ -8,6 +8,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.fshows.fsframework.core.utils.FsBeanUtil;
 import com.fshows.fsframework.core.utils.LogUtil;
 import com.javens.java.domain.OrderFacade;
+import com.javens.java.domain.OrderTccFacade;
 import com.javens.java.domain.request.OrderFacadeSaveRequest;
 import com.javens.java.domain.response.OrderFacadeSaveResponse;
 import com.javens.java.intergration.client.TccOrderClient;
@@ -27,6 +28,9 @@ public class TccOrderClientImpl implements TccOrderClient {
     @Reference(version = "${dubbo.version}",
             application = "${dubbo.application.id}")
     private OrderFacade orderFacade;
+    @Reference(version = "${dubbo.version}",
+            application = "${dubbo.application.id}")
+    private OrderTccFacade orderTccFacade;
 
     @Override
     public OrderSaveResult save(OrderSaveForm form) {
@@ -35,4 +39,19 @@ public class TccOrderClientImpl implements TccOrderClient {
         OrderFacadeSaveResponse response = orderFacade.save(request);
         return FsBeanUtil.map(response,OrderSaveResult.class);
     }
+
+    /**
+     * TCC 保存订单记录
+     * @param form
+     * @return
+     */
+    @Override
+    public String tccSave(OrderSaveForm form) {
+        LogUtil.info(log,"{} save param:{}",this.getClass().getSimpleName(),form);
+        OrderFacadeSaveRequest request = FsBeanUtil.map(form,OrderFacadeSaveRequest.class);
+        String result = orderTccFacade.save(request);
+        return result;
+    }
+
+
 }

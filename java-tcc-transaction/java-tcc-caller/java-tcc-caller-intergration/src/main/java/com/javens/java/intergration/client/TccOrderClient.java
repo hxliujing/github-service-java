@@ -19,4 +19,11 @@ public interface TccOrderClient {
      * @return
      */
     OrderSaveResult save(OrderSaveForm form);
+
+    /**
+     * TCC 保存订单记录
+     * @param form
+     * @return
+     */
+    String tccSave(OrderSaveForm form);
 }

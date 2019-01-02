@@ -1,6 +1,7 @@
 package com.javens.java.facade.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.fshows.fsframework.common.exception.CommonException;
 import com.fshows.fsframework.core.utils.LogUtil;
 import com.javens.java.facade.AccountTccFacade;
 import com.javens.java.facade.domain.request.AccountTccFacadeRequest;
@@ -24,26 +25,31 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccountTccFacadeImpl implements AccountTccFacade {
 
     @Compensable(confirmMethod = "confirmRecord", cancelMethod = "cancelRecord", transactionContextEditor = DubboTransactionContextEditor.class)
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public String record(AccountTccFacadeRequest request) {
-        LogUtil.info(log,"record param:{}",request);
-        return null;
+        LogUtil.info(log,"{} record param:{}",this.getClass().getSimpleName(),request);
+        throw  CommonException.SYSTEM_ERROR;
+        //return null;
     }
 
     /**
+     *
      * confirmRecord
      * @param request
      */
+    @Transactional(rollbackFor = Exception.class)
     public void confirmRecord(AccountTccFacadeRequest request){
-        LogUtil.info(log,"confirmRecord param:{}",request);
+        LogUtil.info(log,"{}  confirmRecord param:{}",this.getClass().getSimpleName(),request);
     }
 
     /**
+     *
      * cancelRecord
      * @param request
      */
+    @Transactional(rollbackFor = Exception.class)
     public void cancelRecord(AccountTccFacadeRequest request){
-        LogUtil.info(log,"cancelRecord param:{}",request);
+        LogUtil.info(log,"{} cancelRecord param:{}",this.getClass().getSimpleName(),request);
     }
 }

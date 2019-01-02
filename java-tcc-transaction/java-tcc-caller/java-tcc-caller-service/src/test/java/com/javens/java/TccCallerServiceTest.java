@@ -56,6 +56,7 @@ public class TccCallerServiceTest extends BaseTest {
     }
 
     /**
+     * 调用Account 正常/异常情况
      * TCC事务调用测试
      */
     @Test
@@ -65,5 +66,38 @@ public class TccCallerServiceTest extends BaseTest {
         form.setAmount(BigDecimal.valueOf(987));
         String result = tccAccountClient.tccRecord(form);
         LogUtil.info(log,"result={}",result);
+    }
+
+    /**
+     *
+     * TCC-2组合调用情况--dubbo2个服务tcc调用
+     *  调用Order正常，调用Account异常情况
+     */
+    @Test
+    public void tccCompose2(){
+        OrderSaveForm form = new OrderSaveForm();
+        form.setAccountId(1);
+        form.setAmount(BigDecimal.valueOf(99.99));
+        form.setCreateTime(new Date());
+        form.setIsDel(0);
+        form.setType(1);
+        form.setUpdateTime(new Date());
+        form.setOrderSn(OrderUtil.createMessageId());
+        form.setOrderStatus("INIT");
+        tccOrderClient.tccSave(form);
+
+        AccountTccFacadeForm form2 = new AccountTccFacadeForm();
+        form2.setId(999L);
+        form2.setAmount(BigDecimal.valueOf(987));
+        String result = tccAccountClient.tccRecord(form2);
+    }
+    /**
+     *
+     * TCC-3组合调用情况--dubbo2个服务tcc调用 + 调用方本地tcc调用
+     *  调用Order正常，调用Account异常情况
+     */
+    @Test
+    public void tccCompose3(){
+
     }
 }
