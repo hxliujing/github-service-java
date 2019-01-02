@@ -4,6 +4,7 @@
  */
 package com.javens.java.intergration.client;
 
+import com.javens.java.intergration.client.domain.form.AccountTccFacadeForm;
 import com.javens.java.intergration.client.domain.form.TccAccountFindForm;
 import com.javens.java.intergration.client.domain.form.TccAccountUpdateForm;
 import com.javens.java.intergration.client.domain.result.TccAccountFindResult;
@@ -28,4 +29,11 @@ public interface TccAccountClient {
      * @return
      */
     TccAccountFindResult find(TccAccountFindForm form);
+
+    /**
+     * TCC事务调用
+     * @param form
+     * @return
+     */
+    public String tccRecord(AccountTccFacadeForm form);
 }

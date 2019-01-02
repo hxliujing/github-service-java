@@ -8,6 +8,7 @@ import com.fshows.fsframework.core.utils.LogUtil;
 import com.fshows.fsframework.core.utils.OrderUtil;
 import com.javens.java.intergration.client.TccAccountClient;
 import com.javens.java.intergration.client.TccOrderClient;
+import com.javens.java.intergration.client.domain.form.AccountTccFacadeForm;
 import com.javens.java.intergration.client.domain.form.OrderSaveForm;
 import com.javens.java.intergration.client.domain.form.TccAccountFindForm;
 import com.javens.java.intergration.client.domain.result.OrderSaveResult;
@@ -51,6 +52,18 @@ public class TccCallerServiceTest extends BaseTest {
         form.setOrderSn(OrderUtil.createMessageId());
         form.setOrderStatus("INIT");
         OrderSaveResult result = tccOrderClient.save(form);
+        LogUtil.info(log,"result={}",result);
+    }
+
+    /**
+     * TCC事务调用测试
+     */
+    @Test
+    public void tccRecord(){
+        AccountTccFacadeForm form = new AccountTccFacadeForm();
+        form.setId(999L);
+        form.setAmount(BigDecimal.valueOf(987));
+        String result = tccAccountClient.tccRecord(form);
         LogUtil.info(log,"result={}",result);
     }
 }
