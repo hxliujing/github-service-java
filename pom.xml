@@ -16,7 +16,6 @@
         <module>java-hadoop</module>
         <module>java-aqs</module>
         <module>java-base</module>
-        <module>java-tcc</module>
     </modules>
     <name>github-service-java</name>
 
